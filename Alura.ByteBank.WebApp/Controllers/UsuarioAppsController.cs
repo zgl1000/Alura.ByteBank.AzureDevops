@@ -52,7 +52,8 @@ namespace Alura.ByteBank.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind("Id,UserName,Email,Senha")] UsuarioApp usuarioApp)
         {
-            if (ModelState.IsValid)            {
+            if (ModelState.IsValid){
+                usuarioApp.Senha = Criptografia.sha256encrypt(Configuracao.Secret + usuarioApp.Senha);
                 _context.Adicionar(usuarioApp);             
                 return RedirectToAction(nameof(Index));
             }
